@@ -1,4 +1,4 @@
-## NextJS - Hardhat Template for DApp applications
+## AMM - Automated Market Maker DApp application
 1. FrontEnd: NextJS, web3-rect, ChakraUI
 2. BackEnd: Solidity, Hardhat, ethers
 

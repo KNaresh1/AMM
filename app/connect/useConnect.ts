@@ -10,7 +10,7 @@ const injectedConnector = new InjectedConnector({
 
 export function useConnectWallet() {
   const { connector, isActive, account } = useWeb3React();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const connectWallet = async () => {
     try {
@@ -22,14 +22,6 @@ export function useConnectWallet() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!isActive) {
-      setTimeout(() => {
-        connectWallet();
-      });
-    }
-  }, [isActive]);
 
   return {
     connectWallet,

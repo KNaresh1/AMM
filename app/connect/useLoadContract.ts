@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import TOKEN_ABI from "../abis/Token.json";
 import config from "../config.json";
 
-export function useLoadContract() {
+const useLoadContract = () => {
   const [token, setToken] = useState<Contract>();
 
   const { provider, account } = useWeb3React();
@@ -15,12 +15,14 @@ export function useLoadContract() {
     try {
       setLoading(true);
 
-      const token = new Contract(
-        config[31337].token.address,
-        TOKEN_ABI,
-        provider
-      );
-      setToken(token);
+      if (provider) {
+        const token = new Contract(
+          config[31337].token.address,
+          TOKEN_ABI,
+          provider
+        );
+        setToken(token);
+      }
     } catch (error) {
       console.error("Error while loading contract. ", error);
     } finally {
@@ -32,7 +34,9 @@ export function useLoadContract() {
     if (account) {
       loadContract();
     }
-  }, [account]);
+  }, [account, provider]);
 
   return { token, loading };
-}
+};
+
+export default useLoadContract;
