@@ -16,7 +16,6 @@ const formatEther = (n) => {
 describe("AMM", () => {
   let deployer, liquidityProvider, investor1, investor2;
   let token1, token2, amm;
-  let transaction, result;
 
   beforeEach(async () => {
     [deployer, liquidityProvider, investor1, investor2] =
