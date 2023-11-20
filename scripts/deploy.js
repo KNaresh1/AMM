@@ -4,11 +4,17 @@ async function main() {
   // Fetch contract to deploy
   const Token = await hre.ethers.getContractFactory("Token");
 
-  // Deploy contract
-  const token = await Token.deploy("Dapp Token", "DAPP", 1000000);
-  await token.deployed();
+  const dappToken = await Token.deploy("Dapp Token", "DAPP", 1000000);
+  await dappToken.deployed();
+  console.log(`Dapp Token deployed to: ${dappToken.address}\n`);
 
-  console.log(`Token deployed to: ${token.address}`);
+  let usdToken = await Token.deploy("USD Token", "USD", 1000000);
+  await usdToken.deployed();
+  console.log(`USD Token deployed to: ${usdToken.address}\n`);
+
+  const AMM = await ethers.getContractFactory("AMM");
+  const amm = await AMM.deploy(dappToken.address, usdToken.address);
+  console.log(`AMM contract deployed to: ${amm.address}\n`);
 }
 
 main().catch((error) => {
