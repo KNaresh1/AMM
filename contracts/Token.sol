@@ -49,7 +49,6 @@ contract Token {
         uint256 _value
     ) public returns (bool success) {
         require(_spender != address(0), "Invalid Spender.");
-        require(msg.sender == owner, "Approver is not owner.");
 
         allowance[msg.sender][_spender] = _value;
 
