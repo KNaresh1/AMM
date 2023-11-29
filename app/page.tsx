@@ -5,12 +5,12 @@ import useLoadContract from "./connect";
 import ServicesTab from "./services";
 
 export default function Home() {
-  const { token } = useLoadContract();
+  useLoadContract();
 
   return (
     <Box>
-      <Divider borderBottomWidth="1px" mt={4} mb={8} borderColor="gray.300" />
-      {token && <ServicesTab />}
+      <Divider borderBottomWidth="2px" mt={4} mb={8} borderColor="gray.300" />
+      <ServicesTab />
     </Box>
   );
 }

@@ -28,11 +28,14 @@
     "react": "18.2.0",
     "react-blockies": "^1.4.1",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.48.2",
     "typescript": "5.2.2",
-    "web3": "^4.2.2"
+    "web3": "^4.2.2",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
-    "hardhat": "^2.15.0"
+    "hardhat": "^2.15.0",
+    "simple-zustand-devtools": "^1.1.0"
   }
 }

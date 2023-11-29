@@ -17,7 +17,7 @@ import "./Token.sol";
  * Now Deployer has: 100 shares and Liquidity Provider has: 50 shares
  * TotalShares: 150
  * As the tokens moves in/out, the price changes and the share determines how many tokens the
- * liquidity provides can get back when they withdraw
+ * liquidity providers can get back when they withdraw
  */
 contract AMM {
     Token public token1;

@@ -6,23 +6,25 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import Deposit from "./Deposit";
+import Swap from "./Swap";
 
 const ServicesTab = () => {
   return (
     <Center>
-      <Tabs variant="enclosed" size="lg" width="40%">
+      <Tabs variant="solid-rounded" colorScheme="blue" size="md">
         <TabList>
           <Tab>Swap</Tab>
           <Tab>Deposit</Tab>
           <Tab>Withdraw</Tab>
           <Tab>Charts</Tab>
         </TabList>
-        <TabPanels>
+        <TabPanels w={400}>
           <TabPanel>
-            <p>Swap</p>
+            <Swap />
           </TabPanel>
           <TabPanel>
-            <p>Deposit</p>
+            <Deposit />
           </TabPanel>
           <TabPanel>
             <p>Withdraw</p>

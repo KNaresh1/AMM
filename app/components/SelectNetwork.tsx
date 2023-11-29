@@ -16,8 +16,7 @@ const SelectNetwork = () => {
   return (
     <div>
       <Select
-        width="200px"
-        colorScheme="blue"
+        width={150}
         size="sm"
         value={selectedNetwork}
         onChange={handleNetworkChange}
