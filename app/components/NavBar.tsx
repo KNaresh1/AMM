@@ -14,7 +14,7 @@ const supportedNetworks = [
 ];
 
 const NavBar = () => {
-  const [selectedChainId, setSelectedChainId] = useState<number>(0);
+  const [selectedChainId, setSelectedChainId] = useState<number>(31337);
   const {
     account,
     active: isActive,

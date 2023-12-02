@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import Deposit from "./Deposit";
 import Swap from "./Swap";
+import Withdraw from "./Withdraw";
 
 const ServicesTab = () => {
   return (
@@ -27,7 +28,7 @@ const ServicesTab = () => {
             <Deposit />
           </TabPanel>
           <TabPanel>
-            <p>Withdraw</p>
+            <Withdraw />
           </TabPanel>
           <TabPanel>
             <p>Charts</p>

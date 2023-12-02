@@ -19,19 +19,29 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ShowAlert } from "../components";
 import useContractStore from "../store";
-import { formatUnits, parseUnits, swap } from "../utils";
+import { formatUnits, loadBalances, parseUnits, swap } from "../utils";
 
 const Swap = () => {
   const { account, provider } = useWeb3React();
-  const [amm, symbols, tokens, balances, swapStatus, setSwapStatus] =
-    useContractStore((s) => [
-      s.amm,
-      s.symbols,
-      s.tokens,
-      s.balances,
-      s.swapStatus,
-      s.setSwapStatus,
-    ]);
+  const [
+    amm,
+    symbols,
+    tokens,
+    balances,
+    swapStatus,
+    setSwapStatus,
+    addBalances,
+    addShares,
+  ] = useContractStore((s) => [
+    s.amm,
+    s.symbols,
+    s.tokens,
+    s.balances,
+    s.swapStatus,
+    s.setSwapStatus,
+    s.addBalances,
+    s.addShares,
+  ]);
 
   const [inputToken, setInputToken] = useState<string>();
   const [outputToken, setOutputToken] = useState<string>();
@@ -112,6 +122,8 @@ const Swap = () => {
         setSwapStatus
       );
     }
+    await loadBalances(account, amm, tokens, addBalances, addShares);
+    await getPrice();
   });
 
   return (

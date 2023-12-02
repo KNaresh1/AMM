@@ -7,17 +7,24 @@ import TOKEN_ABI from "../abis/Token.json";
 import config from "../config";
 import useContractStore from "../store";
 import { formatUnits } from "../utils/utils";
+import { loadBalances } from "../utils";
 
 const useLoadContract = () => {
   const { provider, account, chainId } = useWeb3React();
 
-  const [addTokenContracts, addSymbols, addBalances, addAmmContract] =
-    useContractStore((s) => [
-      s.addTokenContracts,
-      s.addSymbols,
-      s.addBalances,
-      s.addAmmContract,
-    ]);
+  const [
+    addTokenContracts,
+    addShares,
+    addSymbols,
+    addBalances,
+    addAmmContract,
+  ] = useContractStore((s) => [
+    s.addTokenContracts,
+    s.addShares,
+    s.addSymbols,
+    s.addBalances,
+    s.addAmmContract,
+  ]);
 
   const currentChainConfig = config.chains[chainId?.toString() || ""];
 
@@ -37,13 +44,6 @@ const useLoadContract = () => {
       addTokenContracts([dapp, usd]);
       addSymbols([await dapp.symbol(), await usd.symbol()]);
 
-      const balance1 = await dapp.balanceOf(account);
-      const balance2 = await usd.balanceOf(account);
-      addBalances([
-        formatUnits(balance1.toString()),
-        formatUnits(balance2.toString()),
-      ]);
-
       // AMM
       const amm = new Contract(
         currentChainConfig.ammAddress,
@@ -51,6 +51,8 @@ const useLoadContract = () => {
         provider
       );
       addAmmContract(amm);
+
+      await loadBalances(account, amm, [dapp, usd], addBalances, addShares);
     } catch (error) {
       console.error("Error while loading contract. ", error);
     }

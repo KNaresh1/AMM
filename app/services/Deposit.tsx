@@ -15,27 +15,34 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ShowAlert } from "../components";
 import useContractStore from "../store";
-import { addLiquidity, formatUnits, parseUnits } from "../utils";
+import { addLiquidity, formatUnits, loadBalances, parseUnits } from "../utils";
 
 const Deposit = () => {
   const { provider, account } = useWeb3React();
 
-  const [amm, symbols, tokens, balances, depositStatus, setDepositStatus] =
-    useContractStore((s) => [
-      s.amm,
-      s.symbols,
-      s.tokens,
-      s.balances,
-      s.depositStatus,
-      s.setDepositStatus,
-    ]);
+  const [
+    amm,
+    tokens,
+    balances,
+    depositStatus,
+    setDepositStatus,
+    addBalances,
+    addShares,
+  ] = useContractStore((s) => [
+    s.amm,
+    s.tokens,
+    s.balances,
+    s.depositStatus,
+    s.setDepositStatus,
+    s.addBalances,
+    s.addShares,
+  ]);
 
   const [token1Amount, setToken1Amount] = useState<number>(0);
   const [token2Amount, setToken2Amount] = useState<number>(0);
 
   const {
     handleSubmit,
-    register,
     formState: { isSubmitting },
   } = useForm();
 
@@ -68,6 +75,7 @@ const Deposit = () => {
       [_token1Amount, _token2Amount],
       setDepositStatus
     );
+    await loadBalances(account, amm, tokens, addBalances, addShares);
   });
 
   return (
@@ -101,9 +109,7 @@ const Deposit = () => {
                         roundedLeft={8}
                         border="1px"
                         borderRight="0px"
-                        id="token1"
                         placeholder="0.0"
-                        {...register("token1")}
                       />
                     </NumberInput>
                   </FormControl>
@@ -122,7 +128,9 @@ const Deposit = () => {
                       pointerEvents="none"
                       userSelect="none"
                     >
-                      <Text alignSelf="center">DAPP</Text>
+                      <Text alignSelf="center" mx={3}>
+                        DAPP
+                      </Text>
                     </Box>
                   </FormControl>
                 </InputGroup>
@@ -152,9 +160,7 @@ const Deposit = () => {
                         roundedLeft={8}
                         border="1px"
                         borderRight="0px"
-                        id="token2"
                         placeholder="0.0"
-                        {...register("token2")}
                       />
                     </NumberInput>
                   </FormControl>
@@ -173,7 +179,9 @@ const Deposit = () => {
                       pointerEvents="none"
                       userSelect="none"
                     >
-                      <Text alignSelf="center">USD</Text>
+                      <Text alignSelf="center" mx={3}>
+                        USD
+                      </Text>
                     </Box>
                   </FormControl>
                 </InputGroup>

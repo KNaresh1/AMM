@@ -1,6 +1,26 @@
 import { Contract } from "ethers";
 import { IStatus } from "../utils";
-import { shortenAccount } from "./utils";
+import { formatUnits, shortenAccount } from "./utils";
+
+export const loadBalances = async (
+  account: string | undefined,
+  amm: Contract,
+  tokens: Contract[],
+  addBalances: (balances: string[]) => void,
+  addShares: (shares: number) => void
+) => {
+  // BALANCES
+  const balance1 = await tokens[0].balanceOf(account);
+  const balance2 = await tokens[1].balanceOf(account);
+  addBalances([
+    formatUnits(balance1.toString()),
+    formatUnits(balance2.toString()),
+  ]);
+
+  // SHARES
+  const shares = await amm.shares(account);
+  addShares(Number(formatUnits(shares.toString())));
+};
 
 export const swap = async (
   provider: any,
@@ -66,5 +86,27 @@ export const addLiquidity = async (
   } catch (error) {
     setDepositStatus({ status: "ERROR", transactionHash: undefined });
     console.log("Error while depositing tokens. ", error);
+  }
+};
+
+export const removeLiquidity = async (
+  provider: any,
+  amm: Contract,
+  shares: string,
+  setWithdrawStatus: (withdrawStatus: IStatus) => void
+) => {
+  setWithdrawStatus({ status: "INPROGRESS", transactionHash: undefined });
+  try {
+    const signer = await provider.getSigner();
+
+    let transaction = await amm.connect(signer).removeLiquidity(shares);
+    await transaction.wait();
+    setWithdrawStatus({
+      status: "SUCCESS",
+      transactionHash: shortenAccount(transaction.hash),
+    });
+  } catch (error) {
+    setWithdrawStatus({ status: "ERROR", transactionHash: undefined });
+    console.log("Error during withdrawal. ", error);
   }
 };

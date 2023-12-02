@@ -23,16 +23,20 @@ const createTokenSlice: StateCreator<TokenSlice> = (set) => ({
 
 interface AmmSlice {
   amm: Contract;
-  swapStatus: IStatus;
   shares: number;
+  swapStatus: IStatus;
   depositStatus: IStatus;
+  withdrawStatus: IStatus;
   addAmmContract: (amm: Contract) => void;
+  addShares: (shares: number) => void;
   setSwapStatus: (swapStatus: IStatus) => void;
   setDepositStatus: (depositStatus: IStatus) => void;
+  setWithdrawStatus: (withdrawStatus: IStatus) => void;
 }
 
 const createAmmSlice: StateCreator<AmmSlice> = (set) => ({
   amm: {} as Contract,
+  shares: 0,
   swapStatus: {
     status: "INITIAL",
     transactionHash: undefined,
@@ -41,10 +45,12 @@ const createAmmSlice: StateCreator<AmmSlice> = (set) => ({
     status: "INITIAL",
     transactionHash: undefined,
   },
-  shares: 0,
+  withdrawStatus: { status: "INITIAL", transactionHash: undefined },
   addAmmContract: (amm) => set(() => ({ amm })),
+  addShares: (shares) => set(() => ({ shares })),
   setSwapStatus: (swapStatus) => set(() => ({ swapStatus })),
   setDepositStatus: (depositStatus) => set(() => ({ depositStatus })),
+  setWithdrawStatus: (withdrawStatus) => set({ withdrawStatus }),
 });
 
 // CONTRACT STORE - MULTI STORE
