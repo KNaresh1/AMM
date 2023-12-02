@@ -1,14 +1,32 @@
 "use client";
 
-import { Button, Flex, Spacer, Text } from "@chakra-ui/react";
+import { Button, Flex, Select, Spacer, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { useState } from "react";
 import Blockies from "react-blockies";
 import logo from "../../public/logo.png";
 import { useConnectWallet } from "../connect";
-import SelectNetwork from "./SelectNetwork";
+import { shortenAccount } from "../utils";
+
+const supportedNetworks = [
+  { value: 31337, label: "Localhost" },
+  { value: 11155111, label: "Sepolia" },
+];
 
 const NavBar = () => {
-  const { account, loading: isConnecting, connectWallet } = useConnectWallet();
+  const [selectedChainId, setSelectedChainId] = useState<number>(0);
+  const {
+    account,
+    active: isActive,
+    loading: isConnecting,
+    connectWallet,
+    deactivate,
+  } = useConnectWallet(selectedChainId);
+
+  const handleChainChange = (newChainId: number) => {
+    setSelectedChainId(newChainId);
+    deactivate();
+  };
 
   return (
     <Flex align="center" gap="3">
@@ -17,23 +35,38 @@ const NavBar = () => {
         DApp AMM
       </Text>
       <Spacer />
-      <SelectNetwork />
-      {account ? (
+      <Select
+        width={150}
+        size="sm"
+        value={selectedChainId}
+        onChange={(e) => handleChainChange(Number(e.target.value))}
+      >
+        <option value="0" disabled>
+          Select Network
+        </option>
+        {supportedNetworks.map((network, index) => (
+          <option key={index} value={network.value}>
+            {network.label}
+          </option>
+        ))}
+      </Select>
+      {isActive && account ? (
         <>
-          <Text fontSize="md">
-            {account.substring(0, 6)}...${account.substring(account.length - 4)}
-          </Text>
+          <Text fontSize="md">{shortenAccount(account)}</Text>
           <Blockies seed={account} />
         </>
-      ) : (
+      ) : selectedChainId ? (
         <Button
           colorScheme="blue"
           size="sm"
           isLoading={isConnecting}
+          loadingText={"Connecting"}
           onClick={() => connectWallet()}
         >
           Connect Wallet
         </Button>
+      ) : (
+        <></>
       )}
     </Flex>
   );

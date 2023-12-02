@@ -1,6 +1,7 @@
 import { Contract } from "ethers";
-import { StateCreator, create } from "zustand";
 import { mountStoreDevtool } from "simple-zustand-devtools";
+import { StateCreator, create } from "zustand";
+import { IStatus } from "../utils";
 
 interface TokenSlice {
   symbols: string[];
@@ -22,14 +23,28 @@ const createTokenSlice: StateCreator<TokenSlice> = (set) => ({
 
 interface AmmSlice {
   amm: Contract;
+  swapStatus: IStatus;
   shares: number;
+  depositStatus: IStatus;
   addAmmContract: (amm: Contract) => void;
+  setSwapStatus: (swapStatus: IStatus) => void;
+  setDepositStatus: (depositStatus: IStatus) => void;
 }
 
 const createAmmSlice: StateCreator<AmmSlice> = (set) => ({
   amm: {} as Contract,
+  swapStatus: {
+    status: "INITIAL",
+    transactionHash: undefined,
+  },
+  depositStatus: {
+    status: "INITIAL",
+    transactionHash: undefined,
+  },
   shares: 0,
   addAmmContract: (amm) => set(() => ({ amm })),
+  setSwapStatus: (swapStatus) => set(() => ({ swapStatus })),
+  setDepositStatus: (depositStatus) => set(() => ({ depositStatus })),
 });
 
 // CONTRACT STORE - MULTI STORE
