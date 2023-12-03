@@ -27,19 +27,15 @@ import {
 const Charts = () => {
   const { provider, account } = useWeb3React();
 
-  const [amm, tokens, symbols, swaps, addSwaps] = useContractStore((s) => [
-    s.amm,
-    s.tokens,
-    s.symbols,
-    s.swaps,
-    s.addSwaps,
-  ]);
+  const [amm, tokens, symbols, swaps, addSwaps, balances] = useContractStore(
+    (s) => [s.amm, s.tokens, s.symbols, s.swaps, s.addSwaps, s.balances]
+  );
 
   useEffect(() => {
     if (provider && amm) {
       loadAllSwaps(provider, amm, addSwaps);
     }
-  }, [provider, amm]);
+  }, [provider, amm, balances]);
 
   const getSymbol = (address: string) => {
     return address === tokens[0].address ? symbols[0] : symbols[1];
