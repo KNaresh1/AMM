@@ -1,5 +1,5 @@
 import { Contract } from "ethers";
-import { IStatus } from "../utils";
+import { IStatus, ISwapHistory } from "../utils";
 import { formatUnits, shortenAccount } from "./utils";
 
 export const loadBalances = async (
@@ -108,5 +108,28 @@ export const removeLiquidity = async (
   } catch (error) {
     setWithdrawStatus({ status: "ERROR", transactionHash: undefined });
     console.log("Error during withdrawal. ", error);
+  }
+};
+
+export const loadAllSwaps = async (
+  provider: any,
+  amm: Contract,
+  addSwaps: (swaps: ISwapHistory[]) => void
+) => {
+  try {
+    const endBlock = await provider.getBlockNumber();
+
+    const swapStream = await amm?.queryFilter("Swap", 0, endBlock);
+
+    const swaps = swapStream?.map(
+      (event) =>
+        ({
+          hash: event.transactionHash,
+          args: event.args,
+        } as ISwapHistory)
+    );
+    addSwaps(swaps);
+  } catch (error) {
+    console.log("Error loading swap history. ", error);
   }
 };

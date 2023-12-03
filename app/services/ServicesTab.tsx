@@ -6,6 +6,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import Charts from "./Charts";
 import Deposit from "./Deposit";
 import Swap from "./Swap";
 import Withdraw from "./Withdraw";
@@ -14,13 +15,13 @@ const ServicesTab = () => {
   return (
     <Center>
       <Tabs variant="solid-rounded" colorScheme="blue" size="md">
-        <TabList>
+        <TabList justifyContent="center">
           <Tab>Swap</Tab>
           <Tab>Deposit</Tab>
           <Tab>Withdraw</Tab>
           <Tab>Charts</Tab>
         </TabList>
-        <TabPanels w={400}>
+        <TabPanels>
           <TabPanel>
             <Swap />
           </TabPanel>
@@ -31,7 +32,7 @@ const ServicesTab = () => {
             <Withdraw />
           </TabPanel>
           <TabPanel>
-            <p>Charts</p>
+            <Charts />
           </TabPanel>
         </TabPanels>
       </Tabs>

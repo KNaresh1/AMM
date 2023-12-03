@@ -4,3 +4,8 @@ export interface IStatus {
   status: STATUS_TYPE;
   transactionHash: string | undefined;
 }
+
+export interface ISwapHistory {
+  hash: string;
+  args: any;
+}
