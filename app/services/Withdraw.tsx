@@ -81,7 +81,7 @@ const Withdraw = () => {
                 </FormControl>
                 <InputGroup>
                   <FormControl>
-                    <NumberInput w={240} min={1} size="sm">
+                    <NumberInput w={240} size="sm">
                       <NumberInputField
                         roundedLeft={8}
                         border="1px"

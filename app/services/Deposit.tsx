@@ -51,6 +51,10 @@ const Deposit = () => {
   };
 
   const amount1Handler = async (value: string) => {
+    if (!value || value === "") {
+      reset();
+      return;
+    }
     setToken1Amount(Number(value));
 
     const result = await amm.calculateToken2Deposit(parseUnits(value));
@@ -58,10 +62,19 @@ const Deposit = () => {
   };
 
   const amount2Handler = async (value: string) => {
+    if (!value || value === "") {
+      reset();
+      return;
+    }
     setToken2Amount(Number(value));
 
     const result = await amm.calculateToken1Deposit(parseUnits(value));
     setToken1Amount(Number(formatUnits(result.toString())));
+  };
+
+  const reset = () => {
+    setToken1Amount(0);
+    setToken2Amount(0);
   };
 
   const onSubmit = handleSubmit(async () => {
@@ -76,6 +89,7 @@ const Deposit = () => {
       setDepositStatus
     );
     await loadBalances(account, amm, tokens, addBalances, addShares);
+    reset();
   });
 
   return (
@@ -100,7 +114,6 @@ const Deposit = () => {
                   <FormControl>
                     <NumberInput
                       w={240}
-                      min={1}
                       size="sm"
                       onChange={amount1Handler}
                       value={token1Amount}
@@ -152,7 +165,6 @@ const Deposit = () => {
                     <NumberInput
                       w={240}
                       size="sm"
-                      min={1}
                       value={token2Amount}
                       onChange={amount2Handler}
                     >

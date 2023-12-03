@@ -80,12 +80,9 @@ const Swap = () => {
   };
 
   const handleInputAmount = async (value: string) => {
-    if (!inputToken || !outputToken) {
-      window.alert("Please select token");
-      return;
-    }
-    if (inputToken === outputToken) {
-      window.alert("Invalid token pair");
+    if (!value || value === "") {
+      setInputAmount(0);
+      setOutputAmount("0.0");
       return;
     }
     let result;
@@ -98,6 +95,13 @@ const Swap = () => {
       result = await amm.calculateToken2Swap(parseUnits(value));
       setOutputAmount(formatUnits(result.toString()));
     }
+  };
+
+  const reset = () => {
+    setInputAmount(0);
+    setOutputAmount("0.0");
+    setInputToken("");
+    setOutputToken("");
   };
 
   const onSubmit = handleSubmit(async () => {
@@ -124,6 +128,7 @@ const Swap = () => {
     }
     await loadBalances(account, amm, tokens, addBalances, addShares);
     await getPrice();
+    reset();
   });
 
   return (
@@ -154,7 +159,6 @@ const Swap = () => {
                 <InputGroup>
                   <FormControl>
                     <NumberInput
-                      min={1}
                       w={220}
                       size="sm"
                       value={inputAmount}
@@ -210,7 +214,6 @@ const Swap = () => {
                 <InputGroup>
                   <FormControl>
                     <NumberInput
-                      min={1}
                       w={220}
                       size="sm"
                       isDisabled

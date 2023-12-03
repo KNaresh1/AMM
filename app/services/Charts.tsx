@@ -18,9 +18,9 @@ import useContractStore from "../store";
 import {
   formatDate,
   formatUnits,
+  getSeries,
   loadAllSwaps,
   options,
-  getSeries,
   shortenAccount,
 } from "../utils";
 
@@ -45,7 +45,7 @@ const Charts = () => {
     <Stack>
       <Card size="sm" alignItems="center">
         {account && amm ? (
-          <Box>
+          <Box border="1px" color="blue.600">
             <Box p={3}>
               <Chart
                 options={options}
@@ -60,8 +60,8 @@ const Charts = () => {
               maxW="98%"
               borderColor="gray.300"
             />
-            <Box p={5}>
-              <Table variant="striped" colorScheme="gray" size="sm">
+            <Box p={3} maxWidth="100%" overflowY="auto">
+              <Table size="sm" color="blue.600" variant="striped">
                 <Thead>
                   <Tr>
                     <Th>Transaction Hash</Th>

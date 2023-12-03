@@ -17,13 +17,13 @@ async function main() {
 
   const dappToken = await hre.ethers.getContractAt(
     "Token",
-    config[chainId].dapp.address
+    config.chains[chainId].dappTokenAddress
   );
   console.log(`Dapp Token fetched: ${dappToken.address}\n`);
 
   const usdToken = await hre.ethers.getContractAt(
     "Token",
-    config[chainId].usd.address
+    config.chains[chainId].usdTokenAddress
   );
   console.log(`USD Token fetched: ${usdToken.address}\n`);
 
@@ -55,7 +55,7 @@ async function main() {
 
   const amm = await hre.ethers.getContractAt(
     "AMM",
-    config[chainId].amm.address
+    config.chains[chainId].ammAddress
   );
   console.log(`AMM fetched: ${amm.address}\n`);
 
