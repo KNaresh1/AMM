@@ -51,7 +51,7 @@ const Charts = () => {
                 options={options}
                 series={getSeries(swaps, tokens)}
                 type="line"
-                height={320}
+                height={300}
               />
             </Box>
             <Divider

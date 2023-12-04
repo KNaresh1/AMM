@@ -5,10 +5,6 @@ const tokens = (n) => {
   return hre.ethers.utils.parseUnits(n.toString(), "ether");
 };
 
-const ether = tokens;
-
-const shares = ether;
-
 async function main() {
   const [deployer, investor1, investor2, investor3, investor4] =
     await hre.ethers.getSigners();
